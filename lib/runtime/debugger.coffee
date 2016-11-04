@@ -55,13 +55,12 @@ module.exports =
   breakpoints: []
 
   bp: (file, line) ->
-    togglebp file, line
+    togglebp file, line+1
     if (existing = breakpoints.get(file, line, @breakpoints)[0])?
       @breakpoints = @breakpoints.filter (x) -> x != existing
       return existing.destroy()
     thebp = breakpoints.add file, line
     @breakpoints.push thebp
-
 
   togglebp: (ed = atom.workspace.getActiveTextEditor()) ->
     return unless ed
