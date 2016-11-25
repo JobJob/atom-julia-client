@@ -32,6 +32,15 @@ module.exports =
             registerLazy = (id) ->
               r.onDidDestroy client.withCurrent -> clearLazy [id]
               editor.onDidDestroy client.withCurrent -> clearLazy id
+            ensureResultResize = ->
+              if r.view.offsetParent?
+                editorRight = editor.editorElement.getBoundingClientRect().right
+                resultLeft = r.view.offsetParent.offsetLeft
+                pixelsForResult = editorRight - resultLeft
+                r.view.offsetParent.style.width = pixelsForResult - 24 + "px" #-24 for the vert scrollbar and clearance
+              else if r? and !r.isDestroyed
+                setTimeout(ensureResultResize, 5)
+            ensureResultResize()
             r.setContent views.render(view, {registerLazy}), {error}
             r.view.classList.add 'julia'
             if error and result.highlights?
