@@ -51,6 +51,11 @@ config =
     description: "Limits the Console history's size."
     default: 10000
     order: 8
+  cellDelimiter:
+    type: 'string'
+    default: '#---'
+    description: 'String used to separate cells for run-cell commands'
+    order: 10
 
 if process.platform != 'darwin'
   config.terminal =
