@@ -22,6 +22,14 @@ module.exports =
         @withInk ->
           boot()
           juno.runtime.evaluation.eval(move: true)
+      'julia-client:run-cell': =>
+        @withInk ->
+          boot()
+          juno.runtime.evaluation.eval(cell: true)
+      'julia-client:run-cell-and-move': =>
+        @withInk ->
+          boot()
+          juno.runtime.evaluation.eval(cell: true, move: true)
       'julia-client:run-file': (event) =>
         cancelComplete event
         @withInk ->
