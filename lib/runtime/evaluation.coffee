@@ -84,6 +84,7 @@ module.exports =
       wordRegExp:  new RegExp(words.wordRegex, "g")
       getSuggestionForWord: (editor, text, range) =>
         require('../connection').boot()
+        @toggleDocs text, range
         {
           range: range
           callback: => @gotoSymbol(text, range)
