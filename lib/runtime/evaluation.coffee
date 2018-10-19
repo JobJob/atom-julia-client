@@ -87,7 +87,9 @@ module.exports =
         @toggleDocs text, range
         {
           range: range
-          callback: => @gotoSymbol(text, range)
+          callback: =>
+            editor.setCursorBufferPosition(range.start)
+            atom.commands.dispatch atom.views.getView(editor), 'symbols-view:go-to-declaration'
         }
     }
 
