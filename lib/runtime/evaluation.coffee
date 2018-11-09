@@ -79,19 +79,37 @@ module.exports =
         notifications.show "Evaluation Finished"
         workspace.update()
 
+  prevrange: {}
+
   provideHyperclick: () ->
     {
-      wordRegExp:  new RegExp(words.wordRegex, "g")
-      getSuggestionForWord: (editor, text, range) =>
-        require('../connection').boot()
-        @toggleDocs text, range
-        {
-          range: range
-          callback: =>
-            editor.setCursorBufferPosition(range.start)
-            atom.commands.dispatch atom.views.getView(editor), 'symbols-view:go-to-declaration'
-        }
+    wordRegExp:  new RegExp(words.wordRegex, "g")
+    getSuggestionForWord: (editor, text, range) =>
+      {
+        range: range
+        callback: =>
+          editor.setCursorBufferPosition(range.start)
+          atom.commands.dispatch atom.views.getView(editor), 'symbols-view:go-to-declaration'
+      }
     }
+    # {
+    #   wordRegExp: new RegExp(words.wordRegex, "g")
+    #   getSuggestionForWord: (editor, text, range) =>
+    #     if range.isEqual(@prevrange)
+    #       require('../connection').boot()
+    #       @toggleDocs text, range
+    #       @prevrange = {}
+    #     else
+    #       @prevrange = range
+    #     {
+    #       range: range
+    #       callback: =>
+    #         editor.setCursorBufferPosition(range.start)
+    #         console.log "hyperclicked sym ", text, " at range: ", range
+    #         atom.commands.dispatch atom.views.getView(editor), 'symbols-view:go-to-declaration'
+    #     }
+    #   grammarScopes: ["source.julia"]
+    # }
 
   gotoSymbol: (word, range) ->
     {editor, mod, edpath} = @currentContext()
